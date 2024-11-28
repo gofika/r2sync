@@ -201,7 +201,7 @@ func (r *R2Client) DeleteObject(remotePath string, dryRun bool) error {
 	return err
 }
 
-func (r *R2Client) Sync(localPath, remotePath string, delete bool, dryRun bool, recursive bool) error {
+func (r *R2Client) Sync(localPath, remotePath string, delete bool, dryRun bool, recursive bool, concurrency int) error {
 	log.Printf("Getting local file list: %s ...\n", localPath)
 	localFiles, err := getLocalFiles(localPath, recursive)
 	if err != nil {
@@ -244,7 +244,7 @@ func (r *R2Client) Sync(localPath, remotePath string, delete bool, dryRun bool, 
 
 	// Execute synchronization
 	var wg sync.WaitGroup
-	semaphore := make(chan struct{}, 5) // Limit concurrency to 5
+	semaphore := make(chan struct{}, concurrency)
 
 	// Upload files
 	if len(toUpload) > 0 {
@@ -302,14 +302,16 @@ func main() {
 	dryRun := flag.Bool("dryRun", false, "Only display the operations to be performed, without actually executing them")
 	delete := flag.Bool("delete", false, "Delete files that exist in the target location but not in the source location")
 	recursive := flag.Bool("recursive", false, "Recursively synchronize subdirectories")
+	concurrency := flag.Int("concurrency", 5, "Number of concurrent upload/delete operations")
 	flag.Parse()
 
 	args := flag.Args()
 	if len(args) != 2 {
-		fmt.Println("Usage: r2sync [--dryRun] [--delete] [--recursive] <source path> <target path>")
+		fmt.Println("Usage: r2sync [--dryRun] [--delete] [--recursive] [--concurrency N] <source path> <target path>")
 		fmt.Println("Example: r2sync ./local/dir r2://bucket/path/")
 		fmt.Println("         r2sync --delete --dryRun ./local/dir r2://bucket/path/")
 		fmt.Println("         r2sync --recursive --delete --dryRun ./local/dir r2://bucket/path/")
+		fmt.Println("         r2sync --recursive --delete --dryRun --concurrency 10 ./local/dir r2://bucket/path/")
 		os.Exit(1)
 	}
 
@@ -324,7 +326,7 @@ func main() {
 	targetPath = strings.Join(paths[1:], "/")
 
 	client := NewR2Client(bucket)
-	err := client.Sync(sourcePath, targetPath, *delete, *dryRun, *recursive)
+	err := client.Sync(sourcePath, targetPath, *delete, *dryRun, *recursive, *concurrency)
 	if err != nil {
 		log.Fatal(err)
 	}
