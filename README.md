@@ -49,7 +49,7 @@ sudo chmod +x /usr/local/bin/r2sync
 ## Usage
 
 ```bash
-r2sync [--dryrun] [--delete] [--recursive] <source path> <target path>
+r2sync [--dryrun] [--delete] [--recursive] [--concurrency N] [[--exclude PATTERN] ...] [--size-only] <source path> <target path>
 ```
 
 ### Options

@@ -340,7 +340,7 @@ func (s *stringSliceFlag) Set(value string) error {
 
 func usage() {
 	fmt.Fprintln(os.Stderr, `Usage: r2sync [--dryrun] [--delete] [--recursive] [--concurrency N] [[--exclude PATTERN] ...] [--size-only] <source path> <target path>
-Arguments:
+Options:
   --concurrency (number)
     	Number of concurrent upload/delete operations, default is 5
   --delete (boolean)
