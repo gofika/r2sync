@@ -49,14 +49,17 @@ sudo chmod +x /usr/local/bin/r2sync
 ## Usage
 
 ```bash
-r2sync [--dryRun] [--delete] [--recursive] <source path> <target path>
+r2sync [--dryrun] [--delete] [--recursive] <source path> <target path>
 ```
 
 ### Options
 
-- `--dryRun`: Preview operations without executing them
+- `--dryrun`: Preview operations without executing them
 - `--delete`: Remove files from R2 that don't exist in the source
 - `--recursive`: Synchronize subdirectories recursively
+- `--concurrency N`: Number of concurrent upload/delete operations (default: 5)
+- `--exclude PATTERN`: Exclude file or directory patterns (can be used multiple times)
+- `--size-only`: Only use file size to determine if files are the same
 
 ### Target Path Format
 
@@ -74,28 +77,35 @@ r2sync ./local/photos r2://my-bucket/photos/
 2. Preview sync operations without executing:
 
 ```bash
-r2sync --dryRun ./local/docs r2://my-bucket/documents/
+r2sync /local/docs r2://my-bucket/documents/
 ```
 
 
 3. Sync with deletion of removed files:
 
 ```bash
-r2sync --delete ./website r2://my-bucket/public/
+r2sync --delete /website r2://my-bucket/public/
 ```
 
 
 4. Full recursive sync with deletion and preview:
 
 ```bash
-r2sync --recursive --delete --dryRun ./content r2://my-bucket/data/
+r2sync --recursive --delete /content r2://my-bucket/data/
+```
+
+
+5. Sync with custom concurrency and exclusions:
+
+```bash
+r2sync --recursive --delete --concurrency 10 --exclude '*.tmp' --exclude 'backup/*' /content r2://my-bucket/data/
 ```
 
 
 ## Notes
 
 - The tool uses AWS SDK credentials configuration
-- Files are compared using size and MD5 hash
+- Files are compared using size and MD5 hash (unless --size-only is specified)
 - MIME types are automatically detected based on file extensions
-- Concurrent operations are limited to 5 simultaneous transfers
+- Concurrent operations are configurable (default: 5 simultaneous transfers)
 - Progress and transfer speeds are displayed during operations
