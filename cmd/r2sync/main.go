@@ -387,15 +387,7 @@ func main() {
 		os.Exit(1)
 	}
 	targetPath := strings.TrimPrefix(u.Path, "/")
-	paths := strings.Split(targetPath, "/")
-	if len(paths) == 0 {
-		fmt.Println("Target path cannot be empty")
-		fmt.Println()
-		usage()
-		os.Exit(1)
-	}
 	bucket := u.Host
-	targetPath = strings.Join(paths, "/")
 	for i, pattern := range excludePatterns {
 		excludePatterns[i] = normalizePath(pattern)
 	}
