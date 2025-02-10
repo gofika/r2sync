@@ -3,7 +3,7 @@ module github.com/gofika/r2sync
 go 1.23.3
 
 require (
-	github.com/aws/aws-sdk-go-v2 v1.36.0
+	github.com/aws/aws-sdk-go-v2 v1.36.1
 	github.com/aws/aws-sdk-go-v2/config v1.28.7
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.73.2
 	github.com/gofika/fikamime v0.0.0-20241129155150-7a08acd1da80
