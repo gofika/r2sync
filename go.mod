@@ -7,7 +7,7 @@ toolchain go1.24.1
 require (
 	github.com/aws/aws-sdk-go-v2 v1.41.0
 	github.com/aws/aws-sdk-go-v2/config v1.32.3
-	github.com/aws/aws-sdk-go-v2/service/s3 v1.94.0
+	github.com/aws/aws-sdk-go-v2/service/s3 v1.95.0
 	github.com/gofika/fikamime v0.0.0-20241129155150-7a08acd1da80
 )
 
