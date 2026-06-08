@@ -5,7 +5,7 @@ go 1.24
 toolchain go1.24.1
 
 require (
-	github.com/aws/aws-sdk-go-v2 v1.41.9
+	github.com/aws/aws-sdk-go-v2 v1.41.12
 	github.com/aws/aws-sdk-go-v2/config v1.32.18
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.102.2
 	github.com/gofika/fikamime v0.0.0-20241129155150-7a08acd1da80
@@ -26,5 +26,5 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/sso v1.30.17 // indirect
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.36.0 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.42.1 // indirect
-	github.com/aws/smithy-go v1.26.0 // indirect
+	github.com/aws/smithy-go v1.27.1 // indirect
 )
